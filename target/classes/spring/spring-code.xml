@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/task
+http://www.springframework.org/schema/task/spring-task-3.0.xsd  ">
+
+
+    <!-- 让Spring找到被@Component注解的类 -->
+    <context:component-scan base-package="cn.ltian.base" />
+    <context:component-scan base-package="cn.ltian.pageHelper.entity" />
+    <context:component-scan base-package="cn.ltian.pageHelper.dao" />
+    <context:component-scan base-package="cn.ltian.pageHelper.service" />
+    <context:component-scan base-package="cn.ltian.pageHelper.service.impl" />
+    <context:component-scan base-package="cn.ltian.pageHelper.controller" />
+    <context:component-scan base-package="cn.ltian.sso.sameArea" />
+    <context:component-scan base-package="cn.ltian.sso.same_father" />
+    <context:component-scan base-package="cn.ltian.sso.cross_domain" />
+    <context:component-scan base-package="cn.ltian.guava" />
+    <!--定时器开关 -->
+    <!--<task:annotation-driven/>-->
+    <!--<task:annotation-driven scheduler="MyScheduler"/>-->
+    <!-- 配置任务线程池 -->
+    <task:scheduler id="MyScheduler" pool-size="4" />
+
+
+</beans>

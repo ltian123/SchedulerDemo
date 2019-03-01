@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/task
+http://www.springframework.org/schema/task/spring-task-3.0.xsd  ">
+
+    <!--配置整合mybatis过程
+   1.配置数据库相关参数-->
+    <context:property-placeholder location="classpath:pageHelper/jdbc.properties"/>
+
+    <!--2.数据库连接池-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}" />
+
+        <property name="url" value="${jdbc.url}" />
+
+        <property name="username" value="${jdbc.username}" />
+
+        <property name="password" value="${jdbc.password}" />
+
+        <!-- 初始化连接数量 type:int -->
+        <property name="initialSize" value="${druid.initialSize}" />
+
+        <!-- 最大并发数量 type:int -->
+        <property name="maxActive" value="${druid.maxActive}" />
+
+        <!-- 最小空闲数量 type:int -->
+        <property name="minIdle" value="${druid.minIdle}" />
+
+        <!-- 配置获取连接等待超时的时间,单位：毫秒 type:long -->
+        <property name="maxWait" value="${druid.maxWait}" />
+
+        <!-- 开启PSCache，并且指定每个连接上PSCache的大小 -->
+        <property name="poolPreparedStatements" value="${druid.poolPreparedStatements}" />
+    </bean>
+    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <!-- 自动扫描mapping.xml文件 -->
+        <property name="mapperLocations" value="classpath:pageHelper/mapping/*.xml"></property>
+        <!-- 配置分页插件 -->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageHelper">
+                    <property name="properties">
+                        <value>
+                            dialect=mysql
+                            reasonable=true
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
+    </bean>
+
+    <!-- 配置tk.mybatis插件 -->
+    <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 此处value改成你的继承tk.mapper的接口类包路径 -->
+        <property name="basePackage" value="cn.ltian.pageHelper.dao" />
+    </bean>
+</beans>
