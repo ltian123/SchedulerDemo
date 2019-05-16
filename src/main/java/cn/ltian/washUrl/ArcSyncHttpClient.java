@@ -22,7 +22,7 @@ public class ArcSyncHttpClient {
 
     public static void main(String[] args) {
 
-        String url = "http://p.gdown.baidu.com/42981f5f78ff650b5bbf86b040ff18aeb1476897d074009fe743157826a558c55096b952498a7a09932dc1d1cfb7cf8d86a80a1b4fb33a64a211f81f53be856182144e5f75ee3956f37ea3b79115d4c0d9acbf1572c1facae9d23a3c521fb3ee4dd4e14dc8d79310b95254170c580f4b4b78ec1f2c9b410d2a26e898ec377c293f042c6283f2456d78a469507e6260ab2d29df9dca9b23fb58453c0f9d54419d077e11187f6b7c4ef876ed062f35974fb8420f96f1a4d67c";
+        String url = "https://wcdn.servyou.com.cn/install/gs/its.apk";
         String dealDir="D:\\ltian\\test\\";
         String jarurl = " D:\\ltian\\test\\0509\\AXMLPrinter2.jar";
         byte[] b = new byte[4];

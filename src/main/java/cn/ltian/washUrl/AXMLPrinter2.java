@@ -25,8 +25,8 @@ public class AXMLPrinter2 {
 
         Process process;
         try {
-            System.out.println("java -jar"+jarurl+"  "+where);
-            process = Runtime.getRuntime().exec(  "java -jar"+jarurl+"  "+where);
+            System.out.println("java -jar "+jarurl+"  "+where);
+            process = Runtime.getRuntime().exec(  "java -jar "+jarurl+"  "+where);
             InputStreamReader inputStreamReader = new InputStreamReader(process.getInputStream());
             BufferedReader bufferedReader =
                     new BufferedReader(inputStreamReader);
