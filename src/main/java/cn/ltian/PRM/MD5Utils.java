@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
  * @Title : MD5Utils.java
  * @Package : com.huagao.assetsys.core.utils.encrypt
  * @Description: MD加密
- * @author GeNing
+ * @author ltian
  * @date 2018年7月2日
  * @version v1.0
  */
