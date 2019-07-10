@@ -20,16 +20,15 @@ public class ArcSyncHttpClient {
      */
     private static final Logger log = LoggerFactory.getLogger("ArcSyncHttpClient");
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
 
-        String url = "https://wcdn.servyou.com.cn/install/gs/its.apk";
-        String dealDir="D:\\ltian\\test\\";
-        String jarurl = " D:\\ltian\\test\\0509\\AXMLPrinter2.jar";
+        String url = "http://b8.market.mi-img.com/download/AppStore/01068d59b91754cb006b933a635314ce44efb610a/com.alibaba.wireless.apk";
         byte[] b = new byte[4];
         ArcSyncHttpClient arcSyncHttpClient = new ArcSyncHttpClient();
         log.info("url:"+url);
         log.info("开始读取前4个字节，判断是不是apk包");
-        System.out.println("startTime:==================>"+System.currentTimeMillis());
+        Long startTime = System.currentTimeMillis();
+        System.out.println("startTime:==================>"+startTime);
         arcSyncHttpClient.downloadRead(url,b,0,3);
         boolean isApk = arcSyncHttpClient.isApk(b);
         if(isApk == false){
@@ -38,41 +37,40 @@ public class ArcSyncHttpClient {
         }
         log.info("is apk");
         log.info("开始处理");
-        String name = arcSyncHttpClient.dealApkGetName(url,dealDir,jarurl);
-        System.out.println("endTime:==================>"+System.currentTimeMillis());
+        String name = arcSyncHttpClient.dealApkGetName(url);
+        System.out.println("time:==================>"+(System.currentTimeMillis()-startTime));
         log.info("packagename："+name);
+//        System.setOut(new PrintStream(new File("D:\\ltian\\tomcat\\tomcat-7\\webapps\\WEB-INF\\1.txt")));
+//        System.out.println("你好");
+//        System.out.println("请进");
+
+
 
     }
 
     /**
      * 处理apk下载地址，返回包名
      * @param downloadUrl
-     * @param dealDir
-     * @param jarurl
      * @return
      */
-    public String dealApkGetName(String downloadUrl,String dealDir,String jarurl){
+    public String dealApkGetName(String downloadUrl){
 
         String name = null;
-        String salt = System.currentTimeMillis()+"";
-        dealDir = dealDir+salt+"\\";
         try {
-            File file =new File(dealDir);
-            file .mkdir();
             log.info("开始读取压缩文件部分，获取AndroidManifest.xml");
-            new ZFile(downloadUrl).readData("AndroidManifest.xml",dealDir,salt);
+            byte[] zip = new ZFile(downloadUrl).readData("AndroidManifest.xml");
             log.info("开始处理二进制AndroidManifest.xml");
-            new AXMLPrinter2().dealXML(dealDir+salt+"-2",dealDir+salt+"-3",jarurl);
+//             new AXMLPrinter2().dealXML(dealDir+salt+"-2",dealDir+salt+"-3",jarurl);
+            String str = new AXMLPrinter2().dealXMLReturn(zip);
+            System.out.println("xml:"+str);
             ParseManifest a = new ParseManifest();
             log.info("开始解析AndroidManifest.xml");
-            a.xmlHandle(dealDir+salt+"-3");
+            a.xmlHandle(str);
             name =ParseManifest.output(a);
-            //执行删除文件夹
 
         } catch (Exception e) {
             log.error("!!!dealApkGetName(),error={}",e.getMessage());
         }finally {
-            FileUtil.deleteDirectory(dealDir);
         }
 
         return name;

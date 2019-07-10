@@ -101,7 +101,7 @@ public class ZFile {
      * The random access file used to access the zip file. This will be {@code null} if and only
      * if {@link #state} is {@link ZipFileState#CLOSED}.
      */
-    
+
     private RandomAccessFile raf;
     private FileInputStream inp;
     private  URLConnection uc;
@@ -136,10 +136,15 @@ public class ZFile {
     }
 
 
-
-    public void readData(String filename,String dealDir,String salt) throws IOException {
+    /**
+     *
+     * @param filename
+     * @return
+     * @throws IOException
+     */
+    public  byte[] readData(String filename) throws IOException {
         URL root = new URL(downurl);
-         uc = root.openConnection();
+        uc = root.openConnection();
 //        log.info("readData: filelength=" + uc.getContentLength());
         Eocd eocd = readEocd();
         CentralDirectory directory = readCentralDirectory(eocd);
@@ -154,41 +159,47 @@ public class ZFile {
 //        log.info("readData: file offset=" + Long.toHexString(start) + ", end=" + Long.toHexString(end));
         byte[] buf = new byte[(int) (end - start)];
         directFullyRead(start, buf);
-        try (FileOutputStream fout = new FileOutputStream(dealDir+salt+"-1")) {
-            fout.write(buf);
-            fout.flush();
-        }
         //处理压缩文件为二进制文件
-        dealZip(dealDir,dealDir+salt+"-1",salt);
+        return dealZip(buf);
     }
 
     /**
-     * 处理压缩文件为二进制文件
-     * @param dealDir
-     * @param filepath
-     * @param salt
+     * 处理压缩文件为二进制
+     * @param buf
      */
-    private static void dealZip(String dealDir,String filepath,String salt) {
-        FileInputStream fis = null;
+    private static byte[] dealZip(byte[] buf) {
+        InputStream fis = null;
         ZipInputStream zis = null;
+        ByteArrayOutputStream swapStream = null;
         try {
-            fis = new FileInputStream(filepath);
+            fis =  new ByteArrayInputStream( buf);
             zis = new ZipInputStream(new BufferedInputStream(fis));
             ZipEntry ze;
-
             while ((ze = zis.getNextEntry()) != null) {
                 String name = ze.getName();
                 if (ze.isDirectory()) {
                     log.info("directory: " + name);
                 } else {
                     log.info("file: " + name);
-                    FileOutputStream fos = new FileOutputStream(new File(dealDir+salt+"-2"));
-                    log.info("二进制文件："+dealDir+name+salt+"-2");
-                    int r = -1;
-                    while ((r = zis.read()) != -1) {
-                        fos.write(r);
+//                    byte[] buff = new byte[buf.length];
+//                    zis.read(buff,0,buf.length);
+//                    return  buff;
+
+                    swapStream = new ByteArrayOutputStream();
+                    byte[] buff = new byte[100]; //buff用于存放循环读取的临时数据
+                    int rc = 0;
+                    while ((rc = zis.read(buff, 0, 100)) > 0) {
+                        swapStream.write(buff, 0, rc);
                     }
-                    fos.close();
+                    byte[] in_b = swapStream.toByteArray(); //in_b为转换之后的结果
+                    return in_b;
+//                    FileOutputStream fos = new FileOutputStream(new File(dealDir+salt+"-2"));
+//                    log.info("二进制文件："+dealDir+name+salt+"-2");
+//                    int r = -1;
+//                    while ((r = zis.read()) != -1) {
+//                        fos.write(r);
+//                    }
+//                    fos.close();
                 }
             }
         } catch (Exception e) {
@@ -209,7 +220,16 @@ public class ZFile {
                     e.printStackTrace();
                 }
             }
+            if (swapStream != null) {
+                try {
+                    swapStream.close();
+                } catch (IOException e) {
+                    log.error("!!!dealZip(),error={}",e.getMessage());
+                    e.printStackTrace();
+                }
+            }
         }
+        return null;
     }
 
     /**
@@ -250,7 +270,7 @@ public class ZFile {
         int eocdStart = -1;
 
         for (int endIdx = last.length - MIN_EOCD_SIZE; endIdx >= 0 && foundEocdSignature == -1;
-                endIdx--) {
+             endIdx--) {
             /*
              * Remember: little endian...
              */
@@ -351,7 +371,7 @@ public class ZFile {
                         eocd.getTotalRecords());
         return directory;
     }
-    
+
     /**
      * Reads exactly {@code data.length} bytes of data, failing if it was not possible to read all
      * the requested data.

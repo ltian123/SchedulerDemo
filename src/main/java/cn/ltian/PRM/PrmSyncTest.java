@@ -1,6 +1,5 @@
 package cn.ltian.PRM;
 
-import cn.ltian.excel.ReadExcelUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicCookieStore;
@@ -8,33 +7,29 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
-
 public class PrmSyncTest {
 
 
     public static void main(String[] args) throws Exception{
-        ReadExcelUtil readExcelUtil = new ReadExcelUtil();
-        File file = new File("D:\\ltian\\test\\1.xls");
-        List<List<Object>> list = readExcelUtil.read2003Excel(file,0,0);
-        Iterator<List<Object>> it = list.iterator();
-        String str = "";
-        while(it.hasNext()) {
-            String str2 = "";
-            List<Object> l = (List<Object>) it.next();
-            Iterator<Object> it2 = l.iterator();
-//            str = str +it2.next().toString()+",";
-//            System.out.println(it2.next());
-            str2 = it2.next().toString();
-            System.out.println("id="+str2);
-            System.out.println("休眠2秒");
-            Thread.sleep(2*1000);//休眠2秒
-            sync(str2);
-        }
-//        System.out.print(str);
-//        sync(str);
+//        ReadExcelUtil readExcelUtil = new ReadExcelUtil();
+//        File file = new File("D:\\ltian\\test\\1.xls");
+//        List<List<Object>> list = readExcelUtil.read2003Excel(file,0,0);
+//        Iterator<List<Object>> it = list.iterator();
+//        String str = "";
+//        while(it.hasNext()) {
+//            String str2 = "";
+//            List<Object> l = (List<Object>) it.next();
+//            Iterator<Object> it2 = l.iterator();
+////            str = str +it2.next().toString()+",";
+////            System.out.println(it2.next());
+//            str2 = it2.next().toString();
+//            System.out.println("id="+str2);
+//            System.out.println("休眠2秒");
+//            Thread.sleep(2*1000);//休眠2秒
+//            sync(str2);
+//        }
+        System.out.print("779738");
+        sync("779738");
     }
 
 

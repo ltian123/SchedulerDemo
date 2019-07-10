@@ -21,7 +21,7 @@ public class TestSign {
         params.put("time",time+"");
         //有多少个参数就在params中加入
 //        params.put("pageSize","10");
-        params.put("uid","13005959");
+        params.put("uId","7195047");
 //        params.put("developerId","5572702");
 //        params.put("pageNo","1");
 

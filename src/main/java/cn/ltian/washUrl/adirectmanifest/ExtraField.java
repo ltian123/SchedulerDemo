@@ -54,7 +54,7 @@ public class ExtraField {
      * The field's raw data, if it is known. Either this variable or {@link #segments} must be
      * non-{@code null}.
      */
-    
+
     private final byte[] rawData;
 
     /**
@@ -62,7 +62,7 @@ public class ExtraField {
      * list of segments; will also be populated after parsing if the extra field is created based
      * on the raw bytes.
      */
-    
+
     private ArrayList<Segment> segments;
 
     /**
@@ -114,7 +114,7 @@ public class ExtraField {
      * @return the segment found or {@code null} if no segment contains the provided header ID
      * @throws IOException there is more than one header with the provided header ID
      */
-    
+
     public Segment getSingleSegment(int headerId) throws IOException {
         List<Segment> found =
                 getSegments().stream()
@@ -212,7 +212,7 @@ public class ExtraField {
      * @param headerId the header ID
      * @return the segmnet factory that creates segments with the given header
      */
-    
+
     private static SegmentFactory identifySegmentFactory(int headerId) {
         if (headerId == ALIGNMENT_ZIP_EXTRA_DATA_FIELD_HEADER_ID) {
             return AlignmentSegment::new;
@@ -265,7 +265,7 @@ public class ExtraField {
          * @return the created segment
          * @throws IOException failed to create the segment from the data
          */
-        
+
         Segment make(int headerId, byte[] data) throws IOException;
     }
 
@@ -283,7 +283,7 @@ public class ExtraField {
         /**
          * Data in the segment.
          */
-        
+
         private final byte[] data;
 
         /**
