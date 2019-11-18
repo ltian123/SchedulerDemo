@@ -1,5 +1,6 @@
 package cn.ltian.hospital;
 
+import cn.ltian.base.ResultFactory;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpResponse;
@@ -14,8 +15,8 @@ import java.nio.charset.Charset;
 
 public class RegisterLuHui {
 
-    private static String url = "https://mbapp.jsph.org.cn/mobile/online/GetReservationSchedule_H5.do";
-    private static String canshu = "{\"content\":{\"ResourceTypeID\":\"002\",\"DiagOrgID\":\"\",\"ResourceID\":\"1021\",\"HospID\":\"0101\",\"ReserDate\":\"\"}}";
+    private static String url = ResultFactory.getResultMsg("9999");
+    private static String canshu = ResultFactory.getResultMsg("99990");
 
     static String jsonString1 = "{\"header\":{\"resultCode\":\"0\",\"resultMsg\":\"成功\",\"hisCode\":null,\"hisMsg\":null},\"content\":[{\"CurDate\":\"2019-11-15\",\"DateTypeID\":\"100501\",\"LimitAmout\":\"60\",\"OrgID_Used\":\"01010101035603\",\"DateTypeName\":\"星期五上午\",\"ResourceID\":\"1021\",\"ResourceName\":\"陆辉\",\"ResourceTypeID\":\"002000\",\"RemainAmount\":\"1\",\"TotAmount\":\"150.00\",\"OrgName\":\"甲状腺外科门诊\",\"OrgAddr\":\"门诊楼三层4区\"},{\"CurDate\":\"2019-11-15\",\"DateTypeID\":\"100503\",\"LimitAmout\":\"60\",\"OrgID_Used\":\"01010101035603\",\"DateTypeName\":\"星期五下午\",\"ResourceID\":\"1021\",\"ResourceName\":\"陆辉\",\"ResourceTypeID\":\"002000\",\"RemainAmount\":\"0\",\"TotAmount\":\"150.00\",\"OrgName\":\"甲状腺外科门诊\",\"OrgAddr\":\"门诊楼三层4区\"}]}";
 
