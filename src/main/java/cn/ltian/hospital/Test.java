@@ -4,13 +4,13 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class Test {
-
+    //{content: {ResourceTypeID: "002", DiagOrgID: "", ResourceID: "1021", HospID: "0101", ReserDate: ""}}
     static String json = "{\"header\":{\"resultCode\":\"0\",\"resultMsg\":\"成功\",\"hisCode\":null,\"hisMsg\":null},\"content\":[{\"CurDate\":\"2019-11-15\",\"DateTypeID\":\"100501\",\"LimitAmout\":\"60\",\"OrgID_Used\":\"01010101035603\",\"DateTypeName\":\"星期五上午\",\"ResourceID\":\"1021\",\"ResourceName\":\"陆辉\",\"ResourceTypeID\":\"002000\",\"RemainAmount\":\"1\",\"TotAmount\":\"150.00\",\"OrgName\":\"甲状腺外科门诊\",\"OrgAddr\":\"门诊楼三层4区\"},{\"CurDate\":\"2019-11-15\",\"DateTypeID\":\"100503\",\"LimitAmout\":\"60\",\"OrgID_Used\":\"01010101035603\",\"DateTypeName\":\"星期五下午\",\"ResourceID\":\"1021\",\"ResourceName\":\"陆辉\",\"ResourceTypeID\":\"002000\",\"RemainAmount\":\"0\",\"TotAmount\":\"150.00\",\"OrgName\":\"甲状腺外科门诊\",\"OrgAddr\":\"门诊楼三层4区\"}]}";
 
     public static void main(String[] args) {
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 //        Date d  = null;
-////这里会有一个异常，所以要用try catch捕获异常
+//        这里会有一个异常，所以要用try catch捕获异常
 //        try {
 //            d  = sdf.parse("2017-11-06 18:10:01");
 //            int a = d.getMinutes();
@@ -27,15 +27,12 @@ public class Test {
         while(true){
             try {
                 new Test().runhah();
-                TimeUnit.SECONDS.sleep(60);
+                TimeUnit.SECONDS.sleep(30);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
         }
-
-
-
     }
 
     public void runhah(){
@@ -84,7 +81,7 @@ public class Test {
         System.out.println("小时数："+d.getHours());
         System.out.println("分钟数："+min);
         System.out.println("秒数："+d.getSeconds());
-        if(min == 30){
+        if(min == 30 && d.getSeconds() > 30){
             System.out.println("当前时间为整点.");
             return true;
         }
