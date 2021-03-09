@@ -78,7 +78,7 @@ public class RegisterLuHui {
         JSONObject jsonObject = JSONObject.parseObject(jsons);
         JSONArray content = jsonObject.getJSONArray("content");
         for(int i=0;i<content.size();i++){
-            JSONObject o = (JSONObject) content.get(0);
+            JSONObject o = (JSONObject) content.get(i);
             Entity peoplePo1 = JSONObject.parseObject(o.toString(), Entity.class);
             System.out.println(peoplePo1);
             int  yupiao = Integer.parseInt(peoplePo1.getRemainAmount());
